@@ -1,0 +1,164 @@
+{% extends "baseTemplate.html" %}
+{% load static %}
+{% block title %}
+{{ title }}
+{% endblock %}
+{% block styles %} 
+<style>
+.login-box form {
+    margin: auto;
+}
+</style>
+{% endblock %}
+{% block content %}
+<div class="login-area login-s2">
+	<div class="container">
+		<div class="login-box ptb--100" style="padding: 0;">
+			<form style="width: 950px;" enctype="multipart/form-data" action="{% url 'appbase:register' %}" method="post">
+				{% csrf_token %}
+				<div class="login-form-head" style="padding: 15px;">
+					<h4>Création d'un employé</h4>
+				</div>
+				{% if message_confirm %}
+					<div class="login-form-head" style="padding: 15px;">
+						<h6 style="color: {{ color_msg }};">{{ message_confirm }}</h6>
+					</div>
+				{% endif %}
+				<div class="login-form-body col-sm-12" style="padding: 10px;display: inline-flex;">
+					<div class="col-sm-6">
+						<div class="form-gp">
+							<label for="matricule">Matricule</label>
+							<input type="text" id="matricule" name="matricule">
+							<i class="ti-user"></i>
+							<div class="text-danger"></div>
+						</div>
+						<div class="form-gp">
+							<label for="nom">Nom</label>
+							<input type="text" id="nom" name="nom">
+							<i class="ti-user"></i>
+							<div class="text-danger"></div>
+						</div>
+						<div class="form-gp">
+							<label for="prenom">Prenom</label>
+							<input type="text" id="prenom" name="prenom">
+							<i class="ti-user"></i>
+							<div class="text-danger"></div>
+						</div>
+						<div class="form-gp">
+							<label for="adresse">Adresse</label>
+							<input type="text" id="adresse" name="adresse">
+							<i class="fa fa-inbox"></i>
+							<div class="text-danger"></div>
+						</div>
+						<div class="form-gp">
+							<label for="tel">Téléphone</label>
+							<input type="text" id="tel" name="tel">
+							<i class="fa fa-phone"></i>
+							<div class="text-danger"></div>
+						</div>
+						
+						<div class="custom-file">
+						  <input type="file" class="custom-file-input" id="photo" name="photo" lang="fr" accept=".jpg,.png,.JPG,.PNG">
+						  <label class="custom-file-label" for="photo">Ajouter une photo</label>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						
+						<div class="form-gp" style="margin-top: -8px;">
+							 <select class="form-control" name="poste" id="poste">
+								<option value="" disabled selected>-- Selectionner un poste --</option>
+								{% for poste in postes %}
+									<option value="{{ poste.id }}">{{ poste.libelle }}</option>
+								{% endfor %}
+							</select>
+						</div>
+						<div class="form-gp" style="margin-top: -8px;">
+							 <select class="form-control" name="profil" id="profil">
+								<option value="" disabled selected>-- Selectionner un profil --</option>
+								<option value="A">Entreprise</option>
+								<option value="C">Caissier</option>
+								<option value="D">Chef d'agence</option>
+							</select>
+						</div>
+						<div class="form-gp">
+							<label for="email">Email</label>
+							<input type="email" id="email" name="email">
+							<i class="ti-email"></i>
+							<div class="text-danger"></div>
+						</div>
+						<div class="form-gp">
+							<label for="username">Nom d'utilisateur</label>
+							<input type="text" id="username" name="username">
+							<i class="ti-user"></i>
+							<div class="text-danger"></div>
+						</div>
+						<div class="form-gp">
+							<label for="password1">Mot de passe</label>
+							<input type="password" id="password1" name="password1">
+							<i class="ti-lock"></i>
+							<div class="text-danger"></div>
+						</div>
+						<div class="form-gp">
+							<label for="password2">Confirmation du mot de passe</label>
+							<input type="password" id="password2" name="password2">
+							<i class="ti-lock"></i>
+							<div class="text-danger"></div>
+						</div>
+						
+					</div>
+					
+					
+					
+				</div>
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="submit-btn-area">
+							<button id="form_cancel" type="button" style="width: 50%;background: #dc3545;color: #fff" onclick="cancel()">Annuler <i class="fa fa-ban" aria-hidden="true"></i></button>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="submit-btn-area">
+							<button id="form_submit" class="form_submit" type="submit" style="width: 50%;background: #4336f9;color: #fff">Enregistrer <i class="ti-arrow-right"></i></button>
+						</div>
+					</div>
+				</div>
+					
+			</form>
+		</div>
+	</div>
+</div>
+
+<button type="button" id="modalDisplay" class="btn btn-primary btn-flat btn-lg mt-3" data-toggle="modal" data-target="#confirmModal" style="display: none;">Launch demo modal</button>
+<div class="modal fade" id="confirmModal">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalTitle">Modal title</h5>
+				<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+			</div>
+			<div class="modal-body">
+				<p id="modalBody"></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal" style="font-size: 15px;">ok</button>
+			</div>
+		</div>
+	</div>
+</div>
+	<script>
+		function cancel() {
+			matricule = $("#matricule").val("");
+			nom = $("#nom").val("");
+			prenom = $("#prenom").val("");
+			adresse = $("#adresse").val("");
+			tel = $("#tel").val("");
+			photo = $("#photo").val("");
+			poste = $("#poste").val("");
+			email = $("#email").val("");
+			username = $("#username").val("");
+			profil = $("#profil").val("");
+			password1 = $("#password1").val("");
+			password2 = $("#password2").val("");
+		}
+	</script>
+{% endblock %}

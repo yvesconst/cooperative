@@ -1,0 +1,127 @@
+{% extends "baseTemplate.html" %}
+{% load static %}
+{% block title %}
+{{ title }}
+{% endblock %}
+{% block styles %} 
+<style>
+.login-box form {
+    margin: auto;
+}
+</style>
+{% endblock %}
+{% block content %}
+<div class="login-area login-s2">
+	<div class="container">
+		<div class="login-box ptb--100">
+			<form action="{% url 'appbase:createcompte' typecpt=typecmpt %}" method="post">
+				{% csrf_token %}
+				<div class="login-form-head" style="padding: 15px;">
+					<h4>Création d'un compte</h4>
+				</div>
+				{% if message_confirm %}
+					<div class="login-form-head" style="padding: 15px;">
+						<h6 style="color: {{ color_msg }};">{{ message_confirm }}</h6>
+					</div>
+				{% endif %}
+				<div class="login-form-body">
+					<div class="form-gp">
+						<label for="numero">Numéro</label>
+						<input type="text" id="numero" name="numero">
+						<i class=""></i>
+						<div class="text-danger"></div>
+					</div>
+					<div class="form-gp">
+						<label for="solde">Solde de départ</label>
+						<input type="number" id="solde" name="solde">
+						<i class=""></i>
+						<div class="text-danger"></div>
+					</div>
+					<div class="form-gp">
+						<div class="form-gp" style="margin-top: -8px;">
+							 <select class="form-control" name="agence" id="agence">
+								<option value="" disabled selected>-------- Selectionner un agence --------</option>
+								{% for agence in agences %}
+									<option value="{{ agence.id }}">{{ agence.nom }}</option>
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+					{%if typecmpt == "B" %}
+						<div class="form-gp">
+							<div class="form-gp" style="margin-top: -8px;">
+								 <select class="form-control" name="caisse" id="caisse">
+									<option value="" disabled selected>-------- Selectionner un caisse --------</option>
+									{% for caisse in caisses %}
+										<option value="{{ caisse.id }}">{{ caisse.libelle }}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+					{%elif typecmpt == "C" %}
+						<div class="form-gp">
+							<div class="form-gp" style="margin-top: -8px;">
+								 <select class="form-control" name="client" id="client">
+									<option value="" disabled selected>-------- Selectionner un client --------</option>
+									{% for client in clients %}
+										<option value="{{ client.id }}">{{ client.nom }}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+					{% endif %}
+					<div class="row mb-4 rmber-area">
+						<div class="col-6">
+							<div class="custom-control custom-checkbox mr-sm-2">
+								<input type="checkbox" class="custom-control-input" id="epargne" name="epargne">
+								<label class="custom-control-label" for="epargne">Compte d'épargne</label>
+							</div>
+						</div>
+						<div class="col-6 text-right">
+						
+							<input type="text" id="typecompte" name="typecompte" value="{{ typecmpt }}" style="display: none;">
+							<input type="text" id="etat" name="etat" value="A" style="display: none;">
+						</div>
+					</div>
+					<div class="submit-btn-area">
+						<div class="login-other row mt-4">
+							<div class="col-6">
+								<button id="form_cancel" type="button" style="background: #dc3545;color: #fff" onclick="cancel()">Annuler <i class="fa fa-ban" aria-hidden="true"></i></button>
+							</div>
+							<div class="col-6">
+								<button id="form_submit" class="form_submit" type="submit" style="background: #4336f9;color: #fff">Enregistrer <i class="ti-arrow-right"></i></button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<button type="button" id="modalDisplay" class="btn btn-primary btn-flat btn-lg mt-3" data-toggle="modal" data-target="#confirmModal" style="display: none;">Launch demo modal</button>
+<div class="modal fade" id="confirmModal">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalTitle">Modal title</h5>
+				<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+			</div>
+			<div class="modal-body">
+				<p id="modalBody"></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal" style="font-size: 15px;">ok</button>
+			</div>
+		</div>
+	</div>
+</div>
+	<script>
+		function cancel() {
+			$("#numero").val("");
+			$("#solde").val("");
+			$("#agence").val("");
+			$("#epargne").val("");
+		}
+	</script>
+{% endblock %}

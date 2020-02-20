@@ -1,0 +1,97 @@
+<!doctype html>
+{% load static %}
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Cooperative | {{ title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="{% static 'appbase/img/favicon.ico' %}" type="image/ico" />
+    <link href="{% static 'appbase/css/bootstrap.min.css' %}" rel="stylesheet">
+	<link href="{% static 'appbase/css/font-awesome.min.css' %}" rel="stylesheet">
+	<link href="{% static 'appbase/css/themify-icons.css' %}" rel="stylesheet">
+	<link href="{% static 'appbase/css/metisMenu.css' %}" rel="stylesheet">
+	<link href="{% static 'appbase/css/owl.carousel.min.css' %}" rel="stylesheet">
+	<link href="{% static 'appbase/css/slicknav.min.css' %}" rel="stylesheet">
+	<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+	<link href="{% static 'appbase/css/typography.css' %}" rel="stylesheet">
+	<link href="{% static 'appbase/css/default-css.css' %}" rel="stylesheet">
+	<link href="{% static 'appbase/css/styles.css' %}" rel="stylesheet">
+	<link href="{% static 'appbase/css/responsive.css' %}" rel="stylesheet">
+	
+    <!-- modernizr css -->
+	<script src="{% static 'appbase/js/vendor/modernizr-2.8.3.min.js' %}"></script>
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <!-- preloader area start -->
+    <div id="preloader">
+        <div class="loader"></div>
+    </div>
+    <!-- preloader area end -->
+    <!-- login area start -->
+    <div class="login-area login-s2">
+        <div class="container">
+            <div class="login-box ptb--100">
+                <form action="{% url 'appbase:login' %}" method="post">
+				{% csrf_token %}
+                    <div class="login-form-head">
+                        <h4>Connexion</h4>
+                    </div>
+					{% if error_message %}
+						<div class="login-form-head" style="padding: 15px;">
+							<h6 style="color: {{ color_msg }};">{{ error_message }}</h6>
+						</div>
+					{% endif %}
+                    <div class="login-form-body">
+                        <div class="form-gp" style="display: none;">
+                            <input type="text" id="username" name="username" value="{{username}}">
+                        </div>
+                        <div class="form-gp">
+                            <label for="password">Mot de passe</label>
+                            <input type="password" id="password" name="password">
+                            <i class="ti-lock"></i>
+                            <div class="text-danger"></div>
+                        </div>
+                        <div class="row mb-4 rmber-area">
+                            <div class="col-6">
+                                <div class="custom-control custom-checkbox mr-sm-2">
+                                    <input type="checkbox" class="custom-control-input" id="customControlAutosizing" name="rememberme">
+                                    <label class="custom-control-label" for="customControlAutosizing">Remember Me</label>
+                                </div>
+                            </div>
+                            <div class="col-6 text-right">
+                                <a href="#">Forgot Password?</a>
+                            </div>
+                        </div>
+                        <div class="submit-btn-area">
+                            <button id="form_submit" type="submit">Submit <i class="ti-arrow-right"></i></button>
+                        </div>
+                        <div class="form-footer text-center mt-5">
+                            <p class="text-muted">Si ce n'est pas votre session <a href="{% url 'appbase:login' %}">connectez-vous</a></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- login area end -->
+
+    <!-- jquery latest version -->
+    <script src="{% static 'appbase/js/vendor/jquery-2.2.4.min.js' %}"></script>
+	<script src="{% static 'appbase/js/popper.min.js' %}"></script>
+	<script src="{% static 'appbase/js/bootstrap.min.js' %}"></script>
+	
+	<script src="{% static 'appbase/js/owl.carousel.min.js' %}"></script>
+	<script src="{% static 'appbase/js/metisMenu.min.js' %}"></script>
+	<script src="{% static 'appbase/js/jquery.slimscroll.min.js' %}"></script>
+	<script src="{% static 'appbase/js/jquery.slicknav.min.js' %}"></script>
+	<script src="{% static 'appbase/js/plugins.js' %}"></script>
+	<script src="{% static 'appbase/js/scripts.js' %}"></script>
+</body>
+
+</html>

@@ -1,0 +1,125 @@
+{% extends "baseTemplate.html" %}
+{% load static %}
+{% block title %}
+{{ title }}
+{% endblock %}
+{% block styles %} 
+<style>
+.login-box form {
+    margin: auto;
+}
+</style>
+{% endblock %}
+{% block content %}
+<div class="login-area login-s2">
+	<div class="container">
+		<div class="login-box ptb--100">
+			<form action="{% url 'appbase:createversement' cptecred=cptecredit action=action %}" method="post">
+				{% csrf_token %}
+				<div class="login-form-head" style="padding: 15px;">
+					<h4>{{ title }}</h4>
+				</div>
+				{% if message_confirm %}
+					<div class="login-form-head" style="padding: 15px;">
+						<h6 style="color: {{ color_msg }};">{{ message_confirm }}</h6>
+					</div>
+				{% endif %}
+				<div class="login-form-body">
+					<div class="form-gp">
+						<label for="depositaire">
+						{%if action == "B" %}
+							Bénéficiaire
+						{%elif action == "C" %}
+							Dépositaire
+						{% endif %}
+						</label>
+						<input type="text" id="depositaire" name="depositaire">
+						<i class=""></i>
+						<div class="text-danger"></div>
+					</div>
+					<div class="form-gp">
+						<label for="montant">Montant</label>
+						<input type="number" id="montant" name="montant">
+						<i class=""></i>
+						<div class="text-danger"></div>
+					</div>
+					<div class="form-gp">
+						<label for="motif">Motif</label>
+						<input type="textarea" id="motif" name="motif">
+						<i class=""></i>
+						<div class="text-danger"></div>
+					</div>
+					{%if action == "B" %}
+						<div class="form-gp">
+							<div class="form-gp" style="margin-top: -8px;">
+								 <select class="form-control" name="compte" id="compte">
+									<option value="" disabled selected>-------- Selectionner un compte Client --------</option>
+									{% for compte in comptes %}
+										<option value="{{ compte.id }}">{{ compte.numero }}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+					{%elif action == "C" %}
+						<div class="form-gp">
+							<div class="form-gp" style="margin-top: -8px;">
+								 <select class="form-control" name="compte" id="compte">
+									<option value="" disabled selected>-------- Selectionner un compte Bancaire --------</option>
+									{% for compte in comptes %}
+										<option value="{{ compte.id }}">{{ compte.numero }}</option>
+									{% endfor %}
+								</select>
+							</div>
+						</div>
+					{% endif %}
+					<div class="row mb-4 rmber-area">
+						<div class="col-6">
+						</div>
+						<div class="col-6 text-right">
+						
+							<input type="text" id="action" name="action" value="{{action}}" style="display: none;">
+							<input type="text" id="cptecredit" name="cptecredit" value="{{cptecredit}}" style="display: none;">
+						</div>
+					</div>
+					<div class="submit-btn-area">
+						<div class="login-other row mt-4">
+							<div class="col-6">
+								<button id="form_cancel" type="button" style="background: #dc3545;color: #fff" onclick="cancel()">Annuler <i class="fa fa-ban" aria-hidden="true"></i></button>
+							</div>
+							<div class="col-6">
+								<button id="form_submit" class="form_submit" type="submit" style="background: #4336f9;color: #fff">Enregistrer <i class="ti-arrow-right"></i></button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<button type="button" id="modalDisplay" class="btn btn-primary btn-flat btn-lg mt-3" data-toggle="modal" data-target="#confirmModal" style="display: none;">Launch demo modal</button>
+<div class="modal fade" id="confirmModal">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalTitle">Modal title</h5>
+				<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+			</div>
+			<div class="modal-body">
+				<p id="modalBody"></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal" style="font-size: 15px;">ok</button>
+			</div>
+		</div>
+	</div>
+</div>
+	<script>
+		function cancel() {
+			$("#numero").val("");
+			$("#solde").val("");
+			$("#agence").val("");
+			$("#epargne").val("");
+		}
+	</script>
+{% endblock %}

@@ -1,0 +1,443 @@
+{% load static %}
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="{% static 'appbase/img/favicon.ico' %}" type="image/ico" />
+
+    <title>Cooperative | {% block title %}{% endblock %}</title>
+
+    <link href="{% static 'appbase/css/bootstrap.min.css' %}" rel="stylesheet">
+	<link href="{% static 'appbase/css/font-awesome.min.css' %}" rel="stylesheet">
+	<link href="{% static 'appbase/css/themify-icons.css' %}" rel="stylesheet">
+	<link href="{% static 'appbase/css/metisMenu.css' %}" rel="stylesheet">
+	<link href="{% static 'appbase/css/owl.carousel.min.css' %}" rel="stylesheet">
+	<link href="{% static 'appbase/css/slicknav.min.css' %}" rel="stylesheet">
+	<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+	<link href="{% static 'appbase/css/typography.css' %}" rel="stylesheet">
+	<link href="{% static 'appbase/css/default-css.css' %}" rel="stylesheet">
+	<link href="{% static 'appbase/css/styles.css' %}" rel="stylesheet">
+	<link href="{% static 'appbase/css/responsive.css' %}" rel="stylesheet">
+	
+	<link href="{% static 'appbase/css/mdb.min.css' %}" rel="stylesheet">
+	<link href="{% static 'appbase/css/style.css' %}" rel="stylesheet">
+    <!-- modernizr css -->
+	<script src="{% static 'appbase/js/vendor/modernizr-2.8.3.min.js' %}"></script>
+    
+    {% block styles %}{% endblock %}
+  </head>
+
+  <body class="nav-md">
+	<div id="preloader">
+        <div class="loader"></div>
+    </div>
+	
+	<div class="page-container">
+        <!-- sidebar menu area start -->
+        <div class="sidebar-menu">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <a href="{% url 'appbase:dashboard' %}"><img src="{% static 'appbase/images/logo.png' %}" alt="logo"></a>
+                </div>
+            </div>
+            <div class="main-menu">
+                <div class="menu-inner">
+                    <nav>
+                        <ul class="metismenu" id="menu">
+                            <li class="active">
+                                <a href="{% url 'appbase:dashboard' %}" aria-expanded="true"><i class="ti-dashboard"></i><span>Tableau de bord</span></a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-users"></i><span>Gestion administrative</span></a>
+                                <ul class="collapse">
+                                    <li><a href="{% url 'appbase:agenceslist' page=1 %}">Agences</a></li>
+									<li><a href="{% url 'appbase:posteslist' page=1 %}">Postes</a></li>
+									<li><a href="{% url 'appbase:employeslist' page=1 %}">Employés</a></li>
+									<li><a href="{% url 'appbase:compteslist' page=1 tcpt=1 %}">Comptes</a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-user-secret"></i><span>Gestion de la clientelle</span></a>
+                                <ul class="collapse">
+                                    <li><a href="{% url 'appbase:clientslist' page=1 %}">Clients</a></li>
+									<li><a href="{% url 'appbase:compteslist' page=1 tcpt=2 %}">Comptes client</a></li>
+                                    <li><a href="{% url 'appbase:pretslist' page=1 %}">Prêts</a></li>
+                                </ul>
+                            </li>
+							<li>
+                                <a href="javascript:void(0)" aria-expanded="true"><i class="fa fa-user-secret"></i><span>Mouvements Bancaires</span></a>
+                                <ul class="collapse">
+                                    <li><a href="{% url 'appbase:caisseslist' page=1 %}">Caisses</a></li>
+									<li><a href="{% url 'appbase:versementlist' page=1 action=2 %}">Versements</a></li>
+									<li><a href="{% url 'appbase:versementlist' page=1 action=1 %}">Retraits</a></li>
+									<li><a href="#">Suivi des opérations</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="{% url 'appbase:historiques' page=1 %}"><i class="fa fa-history" aria-hidden="true"></i> <span>Historiques</span></a></li>
+							<li>
+                                <a href="javascript:void(0)" aria-expanded="true"><i class="ti-settings"></i>
+                                    <span>Administration</span></a>
+                                <ul class="collapse">
+                                    <li><a href="#">Utilisateurs</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <!-- sidebar menu area end -->
+        <!-- main content area start -->
+        <div class="main-content">
+            <!-- header area start -->
+            <div class="header-area">
+                <div class="row align-items-center">
+                    <!-- nav and search button -->
+                    <div class="col-md-6 col-sm-8 clearfix">
+                        <div class="nav-btn pull-left">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <div class="search-box pull-left">
+                            <form action="#">
+                                <input type="text" name="search" placeholder="Rechercher..." required>
+                                <i class="ti-search"></i>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- profile info & task notification -->
+                    <div class="col-md-6 col-sm-4 clearfix">
+                        <ul class="notification-area pull-right">
+                            <li id="full-view"><i class="ti-fullscreen"></i></li>
+                            <li id="full-view-exit"><i class="ti-zoom-out"></i></li>
+                            <li class="dropdown">
+                                <i class="ti-bell dropdown-toggle" data-toggle="dropdown">
+                                    <span>2</span>
+                                </i>
+                                <div class="dropdown-menu bell-notify-box notify-box">
+                                    <span class="notify-title">You have 3 new notifications <a href="#">view all</a></span>
+                                    <div class="nofity-list">
+                                        <a href="#" class="notify-item">
+                                            <div class="notify-thumb"><i class="ti-key btn-danger"></i></div>
+                                            <div class="notify-text">
+                                                <p>You have Changed Your Password</p>
+                                                <span>Just Now</span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="notify-item">
+                                            <div class="notify-thumb"><i class="ti-comments-smiley btn-info"></i></div>
+                                            <div class="notify-text">
+                                                <p>New Commetns On Post</p>
+                                                <span>30 Seconds ago</span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="notify-item">
+                                            <div class="notify-thumb"><i class="ti-key btn-primary"></i></div>
+                                            <div class="notify-text">
+                                                <p>Some special like you</p>
+                                                <span>Just Now</span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="notify-item">
+                                            <div class="notify-thumb"><i class="ti-comments-smiley btn-info"></i></div>
+                                            <div class="notify-text">
+                                                <p>New Commetns On Post</p>
+                                                <span>30 Seconds ago</span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="notify-item">
+                                            <div class="notify-thumb"><i class="ti-key btn-primary"></i></div>
+                                            <div class="notify-text">
+                                                <p>Some special like you</p>
+                                                <span>Just Now</span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="notify-item">
+                                            <div class="notify-thumb"><i class="ti-key btn-danger"></i></div>
+                                            <div class="notify-text">
+                                                <p>You have Changed Your Password</p>
+                                                <span>Just Now</span>
+                                            </div>
+                                        </a>
+                                        <a href="#" class="notify-item">
+                                            <div class="notify-thumb"><i class="ti-key btn-danger"></i></div>
+                                            <div class="notify-text">
+                                                <p>You have Changed Your Password</p>
+                                                <span>Just Now</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="settings-btn">
+                                <i class="ti-settings"></i>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- header area end -->
+            <!-- page title area start -->
+            <div class="page-title-area">
+                <div class="row align-items-center" style="background-color: #303641;">
+                    <div class="col-sm-6">
+                        <div class="breadcrumbs-area clearfix">
+                            <h4 class="page-title pull-left" style="color: #fff">{{ title }}</h4>
+                            <ul class="breadcrumbs pull-left">
+                                <li><a href="{% url 'appbase:dashboard' %}">Accueil</a></li>
+                                <li><span>{{ title }}</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 clearfix">
+                        <div class="user-profile pull-right">
+							{% if employe.photo.url %}
+
+							<img class="avatar user-thumb" src="{{ employe.photo.url }}" alt="avatar">
+
+							{% else %}
+
+							<img class="avatar user-thumb" src="{% static 'appbase/images/author/avatar.png' %}" alt="avatar">
+
+							{% endif %}
+                            <h4 class="user-name dropdown-toggle" data-toggle="dropdown">{{ employe.nom }} <i class="fa fa-angle-down"></i></h4>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="{% url 'appbase:lock' %}"> <i class="fa fa-lock" style="margin-right: 2px"></i> Fermer la session </a>
+                                <a class="dropdown-item" href="{% url 'appbase:logout' %}"><i class="fa fa-sign-out" style="margin-right: 2px"></i> Deconnexion </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- page title area end -->
+            <div class="main-content-inner">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+        <!-- main content area end -->
+        <!-- footer area start-->
+        <footer>
+            <div class="footer-area">
+                <p>© Cooperative 2020. All right reserved. {{userid}}</p>
+            </div>
+        </footer>
+        <!-- footer area end-->
+    </div>
+	<div class="offset-area">
+        <div class="offset-close"><i class="ti-close"></i></div>
+        <ul class="nav offset-menu-tab">
+            <li><a class="active" data-toggle="tab" href="#activity">Activity</a></li>
+            <li><a data-toggle="tab" href="#settings">Settings</a></li>
+        </ul>
+        <div class="offset-content tab-content">
+            <div id="activity" class="tab-pane fade in show active">
+                <div class="recent-activity">
+                    <div class="timeline-task">
+                        <div class="icon bg1">
+                            <i class="fa fa-envelope"></i>
+                        </div>
+                        <div class="tm-title">
+                            <h4>Rashed sent you an email</h4>
+                            <span class="time"><i class="ti-time"></i>09:35</span>
+                        </div>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse distinctio itaque at.
+                        </p>
+                    </div>
+                    <div class="timeline-task">
+                        <div class="icon bg2">
+                            <i class="fa fa-check"></i>
+                        </div>
+                        <div class="tm-title">
+                            <h4>Added</h4>
+                            <span class="time"><i class="ti-time"></i>7 Minutes Ago</span>
+                        </div>
+                        <p>Lorem ipsum dolor sit amet consectetur.
+                        </p>
+                    </div>
+                    <div class="timeline-task">
+                        <div class="icon bg2">
+                            <i class="fa fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="tm-title">
+                            <h4>You missed you Password!</h4>
+                            <span class="time"><i class="ti-time"></i>09:20 Am</span>
+                        </div>
+                    </div>
+                    <div class="timeline-task">
+                        <div class="icon bg3">
+                            <i class="fa fa-bomb"></i>
+                        </div>
+                        <div class="tm-title">
+                            <h4>Member waiting for you Attention</h4>
+                            <span class="time"><i class="ti-time"></i>09:35</span>
+                        </div>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse distinctio itaque at.
+                        </p>
+                    </div>
+                    <div class="timeline-task">
+                        <div class="icon bg3">
+                            <i class="ti-signal"></i>
+                        </div>
+                        <div class="tm-title">
+                            <h4>You Added Kaji Patha few minutes ago</h4>
+                            <span class="time"><i class="ti-time"></i>01 minutes ago</span>
+                        </div>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse distinctio itaque at.
+                        </p>
+                    </div>
+                    <div class="timeline-task">
+                        <div class="icon bg1">
+                            <i class="fa fa-envelope"></i>
+                        </div>
+                        <div class="tm-title">
+                            <h4>Ratul Hamba sent you an email</h4>
+                            <span class="time"><i class="ti-time"></i>09:35</span>
+                        </div>
+                        <p>Hello sir , where are you, i am egerly waiting for you.
+                        </p>
+                    </div>
+                    <div class="timeline-task">
+                        <div class="icon bg2">
+                            <i class="fa fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="tm-title">
+                            <h4>Rashed sent you an email</h4>
+                            <span class="time"><i class="ti-time"></i>09:35</span>
+                        </div>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse distinctio itaque at.
+                        </p>
+                    </div>
+                    <div class="timeline-task">
+                        <div class="icon bg2">
+                            <i class="fa fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="tm-title">
+                            <h4>Rashed sent you an email</h4>
+                            <span class="time"><i class="ti-time"></i>09:35</span>
+                        </div>
+                    </div>
+                    <div class="timeline-task">
+                        <div class="icon bg3">
+                            <i class="fa fa-bomb"></i>
+                        </div>
+                        <div class="tm-title">
+                            <h4>Rashed sent you an email</h4>
+                            <span class="time"><i class="ti-time"></i>09:35</span>
+                        </div>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse distinctio itaque at.
+                        </p>
+                    </div>
+                    <div class="timeline-task">
+                        <div class="icon bg3">
+                            <i class="ti-signal"></i>
+                        </div>
+                        <div class="tm-title">
+                            <h4>Rashed sent you an email</h4>
+                            <span class="time"><i class="ti-time"></i>09:35</span>
+                        </div>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse distinctio itaque at.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div id="settings" class="tab-pane fade">
+                <div class="offset-settings">
+                    <h4>General Settings</h4>
+                    <div class="settings-list">
+                        <div class="s-settings">
+                            <div class="s-sw-title">
+                                <h5>Notifications</h5>
+                                <div class="s-swtich">
+                                    <input type="checkbox" id="switch1" />
+                                    <label for="switch1">Toggle</label>
+                                </div>
+                            </div>
+                            <p>Keep it 'On' When you want to get all the notification.</p>
+                        </div>
+                        <div class="s-settings">
+                            <div class="s-sw-title">
+                                <h5>Show recent activity</h5>
+                                <div class="s-swtich">
+                                    <input type="checkbox" id="switch2" />
+                                    <label for="switch2">Toggle</label>
+                                </div>
+                            </div>
+                            <p>The for attribute is necessary to bind our custom checkbox with the input.</p>
+                        </div>
+                        <div class="s-settings">
+                            <div class="s-sw-title">
+                                <h5>Show your emails</h5>
+                                <div class="s-swtich">
+                                    <input type="checkbox" id="switch3" />
+                                    <label for="switch3">Toggle</label>
+                                </div>
+                            </div>
+                            <p>Show email so that easily find you.</p>
+                        </div>
+                        <div class="s-settings">
+                            <div class="s-sw-title">
+                                <h5>Show Task statistics</h5>
+                                <div class="s-swtich">
+                                    <input type="checkbox" id="switch4" />
+                                    <label for="switch4">Toggle</label>
+                                </div>
+                            </div>
+                            <p>The for attribute is necessary to bind our custom checkbox with the input.</p>
+                        </div>
+                        <div class="s-settings">
+                            <div class="s-sw-title">
+                                <h5>Notifications</h5>
+                                <div class="s-swtich">
+                                    <input type="checkbox" id="switch5" />
+                                    <label for="switch5">Toggle</label>
+                                </div>
+                            </div>
+                            <p>Use checkboxes when looking for yes or no answers.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+            
+        
+    <script src="{% static 'appbase/js/vendor/jquery-2.2.4.min.js' %}"></script>
+	<script src="{% static 'appbase/js/popper.min.js' %}"></script>
+	<script src="{% static 'appbase/js/bootstrap.min.js' %}"></script>
+	
+	<script src="{% static 'appbase/js/owl.carousel.min.js' %}"></script>
+	<script src="{% static 'appbase/js/metisMenu.min.js' %}"></script>
+	<script src="{% static 'appbase/js/jquery.slimscroll.min.js' %}"></script>
+	<script src="{% static 'appbase/js/jquery.slicknav.min.js' %}"></script>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+    <!-- start highcharts js -->
+	<script src="{% static 'appbase/code/highcharts.js' %}"></script>
+    <!-- start zingchart js -->
+    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+
+	<script src="{% static 'appbase/js/mdb.min.js' %}"></script>
+	
+	<script src="{% static 'appbase/js/plugins.js' %}"></script>
+	<script src="{% static 'appbase/js/scripts.js' %}"></script>
+    <script>
+	/*var i = 0;
+    $('#filterdata').keypress(function(){
+		
+		$('#spandata').text(i += 1);
+	});*/
+	</script>
+  </body>
+</html>

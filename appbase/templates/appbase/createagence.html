@@ -1,0 +1,107 @@
+{% extends "baseTemplate.html" %}
+{% load static %}
+{% block title %}
+{{ title }}
+{% endblock %}
+{% block styles %} 
+<style>
+.login-box form {
+    margin: auto;
+}
+</style>
+{% endblock %}
+{% block content %}
+<div class="login-area login-s2">
+	<div class="container">
+		<div class="login-box ptb--100">
+			<form action="{% url 'appbase:createagence' %}" method="post">
+				{% csrf_token %}
+				<div class="login-form-head" style="padding: 15px;">
+					<h4>Création d'une agence</h4>
+				</div>
+				{% if message_confirm %}
+					<div class="login-form-head" style="padding: 15px;">
+						<h6 style="color: {{ color_msg }};">{{ message_confirm }}</h6>
+					</div>
+				{% endif %}
+				<div class="login-form-body">
+					<div class="form-gp">
+						<label for="societe">Societe</label>
+						<input type="text" id="societe" name="societe">
+						<i class=""></i>
+						<div class="text-danger"></div>
+					</div>
+					<div class="form-gp">
+						<label for="code">Code agence</label>
+						<input type="text" id="code" name="code">
+						<i class=""></i>
+						<div class="text-danger"></div>
+					</div>
+					<div class="form-gp">
+						<label for="nom">Nom de l'agence</label>
+						<input type="text" id="nom" name="nom">
+						<i class=""></i>
+						<div class="text-danger"></div>
+					</div>
+					<div class="form-gp">
+						<label for="adresse">Adresse</label>
+						<input type="text" id="adresse" name="adresse">
+						<i class=""></i>
+						<div class="text-danger"></div>
+					</div>
+					<div class="form-gp">
+						<label for="tel">Numéro de téléphone</label>
+						<input type="text" id="tel" name="tel">
+						<i class="fa fa-phone"></i>
+						<div class="text-danger"></div>
+					</div>
+					<div class="submit-btn-area">
+						<div class="login-other row mt-4">
+							<div class="col-6">
+								<button id="form_cancel" type="button" style="background: #dc3545;color: #fff" onclick="cancel()">Annuler <i class="fa fa-ban" aria-hidden="true"></i></button>
+							</div>
+							<div class="col-6">
+								<button id="form_submit" class="form_submit" type="submit" style="background: #4336f9;color: #fff">Enregistrer <i class="ti-arrow-right"></i></button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<button type="button" id="modalDisplay" class="btn btn-primary btn-flat btn-lg mt-3" data-toggle="modal" data-target="#confirmModal" style="display: none;">Launch demo modal</button>
+<div class="modal fade" id="confirmModal">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="modalTitle">Modal title</h5>
+				<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+			</div>
+			<div class="modal-body">
+				<p id="modalBody"></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal" style="font-size: 15px;">ok</button>
+			</div>
+		</div>
+	</div>
+</div>
+	<script>
+		function cancel() {
+			$("#code").val("");
+			$("#nom").val("");
+			$("#prenom").val("");
+			$("#adresse").val("");
+			$("#tel").val("");
+			$("#photo").val("");
+			$("#civilite").val("");
+			$("#nationalite").val("");
+			$("#cni").val("");
+			$("#profession").val("");
+			$("#signature").val("");
+			$("#datenaissance").val("");
+		}
+	</script>
+{% endblock %}

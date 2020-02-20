@@ -1,0 +1,135 @@
+{% extends "baseTemplate.html" %}
+{% load static %}
+{% block title %}
+{{ title }}
+{% endblock %}
+{% block styles %} 
+{% endblock %}
+{% block content %}
+
+<div class="main-content-inner">
+	<div class="row">
+		<!-- table primary start -->
+		<div class="col-lg-12 mt-5">
+			<div class="card">
+				
+				<div class="card-body">
+					<div class="table-title">
+						<div class="row">
+							<div class="col-sm-5">
+								<h4 style="margin-top: 15px;">
+									<b>{{ title }}</b>
+								</h4>
+							</div>
+							<div class="col-sm-7">
+								<a href="{% url 'appbase:createcompte' typecpt=typecmpt %}" class="btn btn-primary" style="float: right;">Créer un compte<i class="fa fa-plus-circle" aria-hidden="true" style="margin-left: 5px;"></i></a>
+							</div>
+						</div>
+					</div>
+					
+					<div class="single-table">
+						<div class="table-responsive">
+							<table class="table text-center" style="font-family: 'Poppins', sans-serif;text-transform: capitalize;">
+								<thead class="text-uppercase bg-primary">
+									<tr class="text-white">
+										<th scope="col">N°</th>
+										<th scope="col">
+											{% if typecmpt == "B" %}
+												Caisse
+											{% elif typecmpt == "C" %}
+												Client
+											{% else %}
+												-
+											{% endif %}
+										</th>
+										<th scope="col">Numéro</th>
+										<th scope="col">Agence</th>
+										<th scope="col">Type</th>
+										<th scope="col">Etat</th>
+										<th scope="col" colspan=2>Actions</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									{% for compte in comptes %}
+										<tr style="border-right: 2px solid lightgray;border-bottom: 1px solid lightgray;">
+											<th scope="row" style="vertical-align: middle;border-right: 1px solid lightgray;border-left: 1px solid lightgray;">{{ forloop.counter }}</th>
+											<td style="vertical-align: middle;border-right: 1px solid lightgray;">{{ compte.caisse }}</td>
+											<td style="vertical-align: middle;border-right: 1px solid lightgray;">{{ compte.numero }}</td>
+											<td style="vertical-align: middle;border-right: 1px solid lightgray;">{{ compte.agence }}</td>
+											<td style="vertical-align: middle;border-right: 1px solid lightgray;"> 
+												{% if compte.typecompte == "B" %}
+													Caisse
+												{% elif compte.typecompte == "C" %}
+													Client
+												{% else %}
+													-
+												{% endif %}
+											</td>
+											<td style="vertical-align: middle;border-left: 1px solid lightgray;">
+												{% if compte.etat == "A" %}
+													Actif
+												{% elif compte.etat == "I" %}
+													Inactif
+												{% else %}
+													-
+												{% endif %}
+											</td>
+											<td style="vertical-align: middle;border-right: 1px solid lightgray;"><a href="#" class="text-info"><i class="fa fa-edit"></i></a></td>
+											<td style="vertical-align: middle;border-right: 1px solid lightgray;"><a href="#" class="text-danger"><i class="ti-trash"></i></a></td>
+											
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+							<div>
+							<div style="margin-top: 18px;float: left;">
+								Page {{ comptes.number }} sur {{ comptes.paginator.num_pages }}.
+							</div>
+                            <div style="margin-top: 10px;float: right;border: 1px solid #007BFF;border-radius: 3%;">
+								
+                                <nav aria-label="...">
+                                    <ul class="pagination pg-color-border">
+											{% if comptes.has_previous %}
+												<li class="page-item">
+													<a class="page-link" href="{% url 'appbase:clientslist' page=1 %}">1</a>
+												</li>
+												{% if comptes.previous_page_number != 1 %}
+													<li class="page-item">
+														<a class="page-link" href="{% url 'appbase:clientslist' page=comptes.previous_page_number  %}">Précedent</a>
+													</li>
+												{% endif %}
+											{% endif %}
+												<span style="background-color: #007bff;">
+													<li class="page-item" active>
+														<a class="page-link" href="{% url 'appbase:clientslist' page=comptes.number  %}">{{comptes.number}}</a>
+													</li>
+												</span>
+											{% if comptes.has_next  %}
+												{% if comptes.next_page_number != comptes.paginator.num_pages %}
+													<li class="page-item">
+														<a class="page-link" href="{% url 'appbase:clientslist' page=comptes.next_page_number %}">Suivant</a>
+													</li>
+												{% endif %}
+												<li class="page-item">
+													<a class="page-link" href="{% url 'appbase:clientslist' page=comptes.paginator.num_pages %}">Fin &raquo;</a>
+												</li>
+											{% endif %}
+                                    </ul>
+                                </nav>
+                            </div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	document.addEventListener("DOMContentLoaded", function(event){
+		console.log("comptes");
+		console.log("{{comptes}}");
+	});
+</script>
+{% endblock %}
